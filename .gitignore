@@ -1,3 +1,12 @@
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+#OSX
+.DS_Store
+.AppleDouble
+.LSOverride
+
 *.gem
 *.rbc
 /.config
