@@ -2,7 +2,13 @@
 
 require 'csv'
 require 'htmlentities'
+require 'yaml'
 
+settings = YAML::load_file "settings.yml"
+
+os = settings["os"]
+csv_source = settings[os]["path"]+settings[os]["csv_source"]
+csv_target = settings[os]["path"]+settings[os]["csv_target"]
 
 #--BEGIN temporary placeholders
 $vendor = "The North Face"
@@ -11,16 +17,11 @@ product_name = temp
 description = temp
 features = temp
 specs = temp
-
-path = "../"
-csv_file_name = "tnf.csv"
-csv_file = path+csv_file_name
-new_csv_file = path+csv_file_name.sub(/\.csv/,'NEW.csv')
 #--END temporary placeholders
 
 
 # open CSV file
-csv_data = CSV.read(csv_file, :headers => true)
+csv_data = CSV.read(csv_source, :headers => true)
 
 
 # Converts the product description into a hash
@@ -60,6 +61,17 @@ end
 def product_body(string)
 end
 
+def listify(string)
+  output = "<ul>"
+  string.gsub!(/\:\n/, ":")
+  arrayify = string.split("\n")
+  arrayify.each do |line|
+    line.strip!
+    output += "<li>#{line}</li>"
+  end
+  output += "</ul>"
+end
+
 def body_format(hash)
   product_name = hash["product_name"]
   description = hash["description"]
@@ -67,12 +79,12 @@ def body_format(hash)
   specs = hash["specs"]
   product_name.prepend("#{$vendor} ")
 
-  body_format = "<ECI>\n<font face=\"verdana\">\n<h2>#{product_name}</h2>\n<p>#{description}</p>\n<p>\n<u>Features</u></br>\n#{features}\n</p>\n<p>\n<u>Specifications</u></br>\n#{specs}\n</p>\n</font>"
+  body_format = "<ECI>\n<font face=\"verdana\">\n<h2>#{product_name}</h2>\n<p>#{description}</p>\n<p>\n<u>Features</u>\n#{features}\n</p>\n<p>\n<u>Specifications</u>\n#{specs}\n</p>\n</font>"
 end
 
 
 # open a new file
-File.open(new_csv_file, 'a') do |file|
+File.open(csv_target, 'a') do |file|
   csv_data.each do |row|
     if row["desc"] != nil
       row.each do |head,field|
@@ -86,9 +98,11 @@ File.open(new_csv_file, 'a') do |file|
             when "description"
               temp_data[k]=product_sanitizer(v)
             when "features"
-              temp_data[k]=product_sanitizer(v)
+              v=product_sanitizer(v)
+              temp_data[k]=listify(v)
             when "specs"
-              temp_data[k]=product_sanitizer(v)
+              v=product_sanitizer(v)
+              temp_data[k]=listify(v)
             end
           end
           row["desc"] = body_format(temp_data)
