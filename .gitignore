@@ -7,6 +7,7 @@ ehthumbs.db
 .AppleDouble
 .LSOverride
 
+settings.yml
 *.gem
 *.rbc
 /.config
