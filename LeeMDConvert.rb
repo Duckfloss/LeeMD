@@ -20,10 +20,6 @@ specs = temp
 #--END temporary placeholders
 
 
-# open CSV file
-csv_data = CSV.read(csv_source, :headers => true)
-
-
 # Converts the product description into a hash
 # with the "product_name",
 # "description", "features", and "specs"
@@ -82,6 +78,8 @@ def body_format(hash)
   body_format = "<ECI>\n<font face=\"verdana\">\n<h2>#{product_name}</h2>\n<p>#{description}</p>\n<p>\n<u>Features</u>\n#{features}\n</p>\n<p>\n<u>Specifications</u>\n#{specs}\n</p>\n</font>"
 end
 
+# open CSV file
+csv_data = CSV.read(csv_source, :headers => true)
 
 # open a new file
 File.open(csv_target, 'a') do |file|
