@@ -11,7 +11,7 @@ csv_source = settings[os]["path"]+settings[os]["csv_source"]
 csv_target = settings[os]["path"]+settings[os]["csv_target"]
 
 #--BEGIN temporary placeholders
-$vendor = "The North Face"
+$vendor = ""
 temp = "TEMP_TEXT"
 product_name = temp
 description = temp
@@ -79,14 +79,14 @@ def body_format(hash)
 end
 
 # open CSV file
-csv_data = CSV.read(csv_source, :headers => true)
+csv_data = CSV.read(csv_source, :headers => true,:skip_blanks => true,:header_converters => :symbol)
 
 # open a new file
 File.open(csv_target, 'a') do |file|
   csv_data.each do |row|
-    if row["desc"] != nil
+    if row[:desc] != nil
       row.each do |head,field|
-        if head == "desc"
+        if head == :desc
           product_data = hashify(field)
           temp_data = Hash.new
           product_data.each do |k,v|
@@ -103,7 +103,7 @@ File.open(csv_target, 'a') do |file|
               temp_data[k]=listify(v)
             end
           end
-          row["desc"] = body_format(temp_data)
+          row[:desc] = body_format(temp_data)
         end
       end
       file.puts row
