@@ -28,7 +28,7 @@ def hashify(string)
   if string != nil
     string = string.split(/\n(?=\{)/)
     string.each do |section|
-      hash[ ( section.slice(/[\w\d\_]+(?=\})/) ) ] = section.slice( /(?<=\})[^\{\}]+/ ).strip
+      hash[ ( section.slice(/[\w\d\_\#]+(?=\})/) ) ] = section.slice( /(?<=\})[^\{\}]+/ ).strip
     end
   end
   return hash
@@ -50,23 +50,106 @@ def product_sanitizer(string)
   return string
 end
 
+# Title Case
 def product_name(string)
   string = product_sanitizer(string.split.map(&:capitalize).join(' '))
 end
 
-def product_body(string)
-end
-
+# Make it a list
 def listify(string)
-  output = "<ul>"
+  output = "<ul>\n"
   string.gsub!(/\:\n/, ":")
   arrayify = string.split("\n")
   arrayify.each do |line|
     line.strip!
-    output += "<li>#{line}</li>"
+    output += "\t<li>#{line}</li>\n"
   end
-  output += "</ul>"
+  output += "</ul>\n"
 end
+
+# Make it segments
+def segmentify(string)
+  output = "<br>"
+  array = string.split(/\n/)
+  array.each do |x|
+    if x.match(":")
+      output += "#{x}<br>\n"
+    else
+      output += "<strong>#{x}</strong><br>\n"
+    end
+  end
+  return output
+end
+
+# Make it a table
+def tablify(string)
+  output = "<table>\n"
+  r = 0
+  array = string.split(/\n/)
+  array.each do |x|
+    output += "\t<tr>\n"
+    x.gsub!("  ","\t").
+    row = x.split(/\t/)
+    row.each do |y|
+      if r>0
+        output += "\t\t<td>#{y}</td>\n"
+      else
+        output += "\t\t<th>#{y}</th>\n"
+      end
+    end
+    output += "\t</tr>\n"
+    r += 1
+  end
+  output += "</table>\n\n"
+  return output
+end
+
+
+def format_section(string,format)
+  string=product_sanitizer(string)
+  case format
+  when "table"
+    string = tablify(string)
+  when "seg"
+    string = segmentify(string)
+  when "graf"
+    return string
+  when "list" # is default
+    string=listify(string)
+  else
+    string=listify(string)
+  end
+  return string
+end
+
+
+def formatify(string)
+    output = ""
+    product_data = hashify(string)
+    temp_data = Hash.new
+    product_data.each do |k,v|
+      format = "" # marks what format to put section into
+      if k.match("#")
+        split = k.split("#")
+        k = split[0]
+        format = split[1]
+      end
+
+      case k #checks key
+      when "product_name"
+        temp_data[k]=product_name(v)
+      when "description"
+        temp_data[k]=product_sanitizer(v)
+      when "features"
+        temp_data[k]=format_section(v,format)
+      when "specs"
+        temp_data[k]=format_section(v,format)
+      end
+      output = body_format(temp_data)
+    end
+    return output
+end
+
 
 def body_format(hash)
   product_name = hash["product_name"]
@@ -75,7 +158,7 @@ def body_format(hash)
   specs = hash["specs"]
   product_name.prepend("#{$vendor} ")
 
-  body_format = "<ECI>\n<font face=\"verdana\">\n<h2>#{product_name}</h2>\n<p>#{description}</p>\n<p>\n<u>Features</u>\n#{features}\n</p>\n<p>\n<u>Specifications</u>\n#{specs}\n</p>\n</font>"
+  body_format = "<ECI>\n<font face=\'verdana\'>\n<h2>#{product_name}</h2>\n<p>#{description}</p>\n<p>\n<u>Features</u>\n#{features}\n</p>\n<p>\n<u>Specifications</u>\n#{specs}\n</p>\n</font>"
 end
 
 # open CSV file
@@ -87,23 +170,7 @@ File.open(csv_target, 'a') do |file|
     if row[:desc] != nil
       row.each do |head,field|
         if head == :desc
-          product_data = hashify(field)
-          temp_data = Hash.new
-          product_data.each do |k,v|
-            case k
-            when "product_name"
-              temp_data[k]=product_name(v)
-            when "description"
-              temp_data[k]=product_sanitizer(v)
-            when "features"
-              v=product_sanitizer(v)
-              temp_data[k]=listify(v)
-            when "specs"
-              v=product_sanitizer(v)
-              temp_data[k]=listify(v)
-            end
-          end
-          row[:desc] = body_format(temp_data)
+          row[:desc] = formatify(field)
         end
       end
       file.puts row
