@@ -62,9 +62,11 @@ def listify(string)
   arrayify = string.split("\n")
   arrayify.each do |line|
     line.strip!
-    output += "\t<li>#{line}</li>\n"
+    if line.length>0
+      output << "\t<li>#{line}</li>\n"
+    end
   end
-  output += "</ul>\n"
+  output << "</ul>\n"
 end
 
 # Make it segments
@@ -73,9 +75,9 @@ def segmentify(string)
   array = string.split(/\n/)
   array.each do |x|
     if x.match(":")
-      output += "#{x}<br>\n"
+      output << "#{x}<br>\n"
     else
-      output += "<strong>#{x}</strong><br>\n"
+      output << "<strong>#{x}</strong><br>\n"
     end
   end
   return output
@@ -87,20 +89,20 @@ def tablify(string)
   r = 0
   array = string.split(/\n/)
   array.each do |x|
-    output += "\t<tr>\n"
+    output << "\t<tr>\n"
     x.gsub!("  ","\t").
     row = x.split(/\t/)
     row.each do |y|
       if r>0
-        output += "\t\t<td>#{y}</td>\n"
+        output << "\t\t<td>#{y}</td>\n"
       else
-        output += "\t\t<th>#{y}</th>\n"
+        output << "\t\t<th>#{y}</th>\n"
       end
     end
-    output += "\t</tr>\n"
+    output << "\t</tr>\n"
     r += 1
   end
-  output += "</table>\n\n"
+  output << "</table>\n\n"
   return output
 end
 
@@ -124,31 +126,34 @@ end
 
 
 def formatify(string)
-    output = ""
-    product_data = hashify(string)
-    temp_data = Hash.new
-    product_data.each do |k,v|
-      format = "" # marks what format to put section into
-      if k.match("#")
-        split = k.split("#")
-        k = split[0]
-        format = split[1]
-      end
-
-      case k #checks key
-      when "product_name"
-        temp_data[k]=product_name(v)
-      when "description"
-        temp_data[k]=product_sanitizer(v)
-      when "features"
-        temp_data[k]=format_section(v,format)
-      when "specs"
-        temp_data[k]=format_section(v,format)
-      end
-      output = body_format(temp_data)
+  output = ""
+  product_data = hashify(string)
+  temp_data = Hash.new
+  product_data.each do |k,v|
+    format = "" # marks what format to put section into
+    if k.match("#")
+      split = k.split("#")
+      k = split[0]
+      format = split[1]
     end
-    return output
+
+    case k #checks key
+    when "product_name"
+      temp_data[k]=product_name(v)
+    when "description"
+      temp_data[k] = "<p>#{product_sanitizer(v)}</p>\n"
+    when "features"
+      temp_data[k] = "<p>\n<u>Features</u>\n#{format_section(v,format)}\n</p>\n"
+    when "specs"
+      temp_data[k] = "<p>\n<u>Specifications</u>\n#{format_section(v,format)}\n</p>\n"
+    end
+  end
+  output << body_format(temp_data)
+  return output
 end
+#        temp_data[k] = "<p>#{product_sanitizer(v)}</p>\n"
+#        temp_data[k] = "<p>\n<u>Features</u>\n#{format_section(v,format)}\n</p>\n"
+#        temp_data[k] = "<p>\n<u>Specifications</u>\n#{format_section(v,format)}\n</p>\n"
 
 
 def body_format(hash)
@@ -156,9 +161,22 @@ def body_format(hash)
   description = hash["description"]
   features = hash["features"]
   specs = hash["specs"]
-  product_name.prepend("#{$vendor} ")
+#  product_name.prepend("#{$vendor} ")
 
-  body_format = "<ECI>\n<font face=\'verdana\'>\n<h2>#{product_name}</h2>\n<p>#{description}</p>\n<p>\n<u>Features</u>\n#{features}\n</p>\n<p>\n<u>Specifications</u>\n#{specs}\n</p>\n</font>"
+  body_format = "<ECI>\n<font face='verdana'>\n"
+  body_format << "<h2>#{hash['product_name']}</h2>\n"
+  if hash.has_key? 'description'
+    body_format << hash['description']
+  end
+  if hash.has_key? 'features'
+    body_format << hash['features']
+  end
+  if hash.has_key? 'specs'
+    body_format << hash['specs']
+  end
+
+  body_format << "</font>"
+
 end
 
 # open CSV file
