@@ -1,5 +1,10 @@
 #!/ruby200/bin
 
+#TODO: filter title by "*" no caps change
+#TODO: insert <BR> in descriptions
+#TODO: sublists in list style
+#TODO: skip empty lines in lists
+
 require 'csv'
 require 'htmlentities'
 require 'yaml'
@@ -28,7 +33,7 @@ def hashify(string)
   if string != nil
     string = string.split(/\n(?=\{)/)
     string.each do |section|
-      hash[ ( section.slice(/[\w\d\_\#]+(?=\})/) ) ] = section.slice( /(?<=\})[^\{\}]+/ ).strip
+      hash[ ( section.slice(/[\w\d\_\#]+(?=\})/) ) ] = section[(section.index('}'))..-1].strip
     end
   end
   return hash
@@ -179,21 +184,23 @@ def body_format(hash)
 
 end
 
-# open CSV file
-csv_data = CSV.read(csv_source, :headers => true,:skip_blanks => true,:header_converters => :symbol)
+def doit(csv_source, csv_target)
+  # open CSV file
+  csv_data = CSV.read(csv_source, :headers => true,:skip_blanks => true,:header_converters => :symbol)
 
-# open a new file
-File.open(csv_target, 'a') do |file|
-  csv_data.each do |row|
-    if row[:desc] != nil
-      row.each do |head,field|
-        if head == :desc
-          row[:desc] = formatify(field)
+  # open a new file
+  File.open(csv_target, 'a') do |file|
+    csv_data.each do |row|
+      if row[:desc] != nil
+        row.each do |head,field|
+          if head == :desc
+            row[:desc] = formatify(field)
+          end
         end
+        file.puts row
+      else
+        file.puts row
       end
-      file.puts row
-    else
-      file.puts row
     end
   end
 end
