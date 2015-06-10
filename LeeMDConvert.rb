@@ -1,9 +1,9 @@
 #!/ruby200/bin
 
 #TODO: filter title by "*" no caps change
-#TODO: insert <BR> in descriptions
 #TODO: sublists in list style
 #TODO: skip empty lines in lists
+#TODO: add vendor name based on VCS field
 
 require 'csv'
 require 'htmlentities'
@@ -56,6 +56,8 @@ def product_sanitizer(string)
   return string
 end
 
+# replace \r\n line endings with \n line endings
+# check encoding, if not UTF-8, transcode
 def file_sanitizer(file)
   detector = CharlockHolmes::EncodingDetector.new
   file = File.open(file, mode="r+")
@@ -125,6 +127,12 @@ def tablify(string)
   return output
 end
 
+# makes it a paragraph
+def grafify(string)
+  string.strip!
+  string.gsub!("\n","<br>")
+end
+
 
 def format_section(string,format)
   string=product_sanitizer(string)
@@ -134,7 +142,7 @@ def format_section(string,format)
   when "seg"
     string = segmentify(string)
   when "graf"
-    return string
+    string = grafify(string)
   when "list" # is default
     string=listify(string)
   else
@@ -170,9 +178,6 @@ def formatify(string)
   output << body_format(temp_data)
   return output
 end
-#        temp_data[k] = "<p>#{product_sanitizer(v)}</p>\n"
-#        temp_data[k] = "<p>\n<u>Features</u>\n#{format_section(v,format)}\n</p>\n"
-#        temp_data[k] = "<p>\n<u>Specifications</u>\n#{format_section(v,format)}\n</p>\n"
 
 
 def body_format(hash)
@@ -180,7 +185,6 @@ def body_format(hash)
   description = hash["description"]
   features = hash["features"]
   specs = hash["specs"]
-#  product_name.prepend("#{$vendor} ")
 
   body_format = "<ECI>\n<font face='verdana'>\n"
   body_format << "<h2>#{hash['product_name']}</h2>\n"
