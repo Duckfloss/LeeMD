@@ -1,7 +1,5 @@
 #!/ruby200/bin
 
-#TODO: convert /r/n to /n
-#TODO: convert ANSI symbols (Windows-1252) to UTF8
 #TODO: filter title by "*" no caps change
 #TODO: insert <BR> in descriptions
 #TODO: sublists in list style
@@ -50,7 +48,7 @@ def product_sanitizer(string)
     "&trade;" => "",
     "&reg;" => ""
   }
-  coder = HTMLEntities.new
+  coder = HTMLEntities.new(:html4)
   string = coder.encode(string, :named)
   items.each do |k,v|
     string.gsub! k, v
