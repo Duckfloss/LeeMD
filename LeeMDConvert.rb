@@ -1,5 +1,7 @@
 #!/ruby200/bin
 
+#TODO: convert /r/n to /n
+#TODO: convert ANSI symbols (Windows-1252) to UTF8
 #TODO: filter title by "*" no caps change
 #TODO: insert <BR> in descriptions
 #TODO: sublists in list style
@@ -8,6 +10,7 @@
 require 'csv'
 require 'htmlentities'
 require 'yaml'
+require 'Charlock_Holmes'
 
 settings = YAML::load_file "settings.yml"
 
@@ -54,6 +57,19 @@ def product_sanitizer(string)
   end
   return string
 end
+
+def file_sanitizer(file)
+  detector = CharlockHolmes::EncodingDetector.new
+  file = File.open(file, mode="r+")
+  content = File.read(file)
+  character_encoding = detector.detect(content)
+  if character_encoding[:encoding] != "UTF-8"
+    content = CharlockHolmes::Converter.convert content, character_encoding[:encoding], 'UTF-8'
+  end
+  content.gsub!("\r\n","\n")
+  file.write(content)
+end
+
 
 # Title Case
 def product_name(string)
