@@ -34,7 +34,7 @@ def hashify(string)
   if string != nil
     string = string.split(/\n(?=\{)/)
     string.each do |section|
-      hash[ ( section.slice(/[\w\d\_\#]+(?=\})/) ) ] = section[(section.index('}'))..-1].strip
+      hash[ ( section.slice(/[\w\d\_\#]+(?=\})/) ) ] = section[(section.index('}')+1)..-1].strip
     end
   end
   return hash
@@ -70,11 +70,25 @@ def file_sanitizer(file)
   file.write(content)
 end
 
-
-# Title Case
-def product_name(string)
-  string = product_sanitizer(string.split.map(&:capitalize).join(' '))
+# Capitalize all words in title
+# except those in no_cap and with "*" in front of them
+def title_case(string)
+  no_cap = ["a","an","the","with","and","but","or","on","in","at","to"]
+  if string[0] == "*"
+    string.sub("*","")
+  elsif no_cap.include?(string)
+    string.downcase
+  else
+    string.capitalize!
+  end
 end
+
+
+# sanitize and capitalize
+def product_name(string)
+  string = product_sanitizer(string.split.each{|i| title_case(i)}.join(' '))
+end
+
 
 # Make it a list
 def listify(string)
@@ -222,3 +236,5 @@ def doit(csv_source, csv_target)
     end
   end
 end
+
+doit(csv_source, csv_target)
