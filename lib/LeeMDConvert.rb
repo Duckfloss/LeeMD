@@ -1,21 +1,3 @@
-#!/ruby200/bin
-
-#TODO: filter title by "*" no caps change
-#TODO: sublists in list style
-#TODO: skip empty lines in lists
-#TODO: add vendor name based on VCS field
-
-require 'csv'
-require 'htmlentities'
-require 'yaml'
-require 'Charlock_Holmes'
-
-settings = YAML::load_file "settings.yml"
-
-os = settings["os"]
-csv_source = settings[os]["path"]+settings[os]["csv_source"]
-csv_target = settings[os]["path"]+settings[os]["csv_target"]
-
 #--BEGIN temporary placeholders
 $vendor = ""
 temp = "TEMP_TEXT"
@@ -237,4 +219,4 @@ def doit(csv_source, csv_target)
   end
 end
 
-doit(csv_source, csv_target)
+doit($csv_source, $csv_target)
