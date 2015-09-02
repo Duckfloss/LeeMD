@@ -15,7 +15,7 @@ require 'Charlock_Holmes'
 require 'LeeMDConvert'
 
 # Load presets
-$settings = YAML::load_file "settings.yml"
+$settings = YAML::load_file "settings/settings.yml"
 
 $os = settings["os"]
 $csv_source = settings[os]["path"]+settings[os]["csv_source"]
