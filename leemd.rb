@@ -17,6 +17,6 @@ require 'LeeMDConvert'
 # Load presets
 $settings = YAML::load_file "settings/settings.yml"
 
-$os = settings["os"]
-$csv_source = settings[os]["path"]+settings[os]["csv_source"]
-$csv_target = settings[os]["path"]+settings[os]["csv_target"]
+os = $settings["os"]
+$csv_source = $settings[os]["path"]+$settings[os]["csv_source"]
+$csv_target = $settings[os]["path"]+$settings[os]["csv_target"]
