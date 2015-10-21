@@ -31,7 +31,7 @@ def product_sanitizer(string)
     "&reg;" => ""
   }
   coder = HTMLEntities.new(:html4)
-  string = coder.encode(string, :named)
+  string = coder.encode(string, :basic)
   items.each do |k,v|
     string.gsub! k, v
   end
@@ -57,7 +57,7 @@ end
 def title_case(string)
   no_cap = ["a","an","the","with","and","but","or","on","in","at","to"]
   if string[0] == "*"
-    string.sub("*","")
+    string.sub!("*","")
   elsif no_cap.include?(string)
     string.downcase
   else
@@ -200,7 +200,7 @@ end
 
 def doit(csv_source, csv_target)
   # open CSV file
-  csv_data = CSV.read(csv_source, :headers => true,:skip_blanks => true,:header_converters => :symbol)
+  csv_data = CSV.read($csv_source, :headers => true,:skip_blanks => true,:header_converters => :symbol)
 
   # open a new file
   File.open(csv_target, 'a') do |file|
@@ -219,4 +219,7 @@ def doit(csv_source, csv_target)
   end
 end
 
+=begin
+
 doit($csv_source, $csv_target)
+=end
