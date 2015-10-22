@@ -106,18 +106,20 @@ def tablify(string)
   r = 0
   array = string.split(/\n/)
   array.each do |x|
-    output << "\t<tr>\n"
-    x.gsub!("  ","\t").
-    row = x.split(/\t/)
-    row.each do |y|
-      if r>0
-        output << "\t\t<td>#{y}</td>\n"
-      else
-        output << "\t\t<th>#{y}</th>\n"
+    if !x.nil?
+      output << "\t<tr>\n"
+      x.gsub!("  ","\t")
+      row = x.split(/\t/)
+      row.each do |y|
+        if r>0
+          output << "\t\t<td>#{y}</td>\n"
+        else
+          output << "\t\t<th>#{y}</th>\n"
+        end
       end
+      output << "\t</tr>\n"
+      r += 1
     end
-    output << "\t</tr>\n"
-    r += 1
   end
   output << "</table>\n\n"
   return output
