@@ -1,21 +1,3 @@
-#!/ruby200/bin
-
-#TODO: filter title by "*" no caps change
-#TODO: sublists in list style
-#TODO: skip empty lines in lists
-#TODO: add vendor name based on VCS field
-
-require 'csv'
-require 'htmlentities'
-require 'yaml'
-require 'Charlock_Holmes'
-
-settings = YAML::load_file "settings.yml"
-
-os = settings["os"]
-csv_source = settings[os]["path"]+settings[os]["csv_source"]
-csv_target = settings[os]["path"]+settings[os]["csv_target"]
-
 #--BEGIN temporary placeholders
 $vendor = ""
 temp = "TEMP_TEXT"
@@ -49,7 +31,7 @@ def product_sanitizer(string)
     "&reg;" => ""
   }
   coder = HTMLEntities.new(:html4)
-  string = coder.encode(string, :named)
+  string = coder.encode(string, :basic)
   items.each do |k,v|
     string.gsub! k, v
   end
@@ -75,7 +57,7 @@ end
 def title_case(string)
   no_cap = ["a","an","the","with","and","but","or","on","in","at","to"]
   if string[0] == "*"
-    string.sub("*","")
+    string.sub!("*","")
   elsif no_cap.include?(string)
     string.downcase
   else
@@ -124,18 +106,20 @@ def tablify(string)
   r = 0
   array = string.split(/\n/)
   array.each do |x|
-    output << "\t<tr>\n"
-    x.gsub!("  ","\t").
-    row = x.split(/\t/)
-    row.each do |y|
-      if r>0
-        output << "\t\t<td>#{y}</td>\n"
-      else
-        output << "\t\t<th>#{y}</th>\n"
+    if !x.nil?
+      output << "\t<tr>\n"
+      x.gsub!("  ","\t")
+      row = x.split(/\t/)
+      row.each do |y|
+        if r>0
+          output << "\t\t<td>#{y}</td>\n"
+        else
+          output << "\t\t<th>#{y}</th>\n"
+        end
       end
+      output << "\t</tr>\n"
+      r += 1
     end
-    output << "\t</tr>\n"
-    r += 1
   end
   output << "</table>\n\n"
   return output
@@ -218,7 +202,7 @@ end
 
 def doit(csv_source, csv_target)
   # open CSV file
-  csv_data = CSV.read(csv_source, :headers => true,:skip_blanks => true,:header_converters => :symbol)
+  csv_data = CSV.read($csv_source, :headers => true,:skip_blanks => true,:header_converters => :symbol)
 
   # open a new file
   File.open(csv_target, 'a') do |file|
@@ -237,4 +221,7 @@ def doit(csv_source, csv_target)
   end
 end
 
-doit(csv_source, csv_target)
+=begin
+
+doit($csv_source, $csv_target)
+=end

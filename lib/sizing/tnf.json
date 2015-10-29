@@ -1,0 +1,73 @@
+{
+  "mjacket":
+  "<u>Men's Jacket Sizing</u><br>
+  (M) Neck: 16&quot;. Chest: 39-41&quot;. Waist: 32-34&quot;. Sleeve Length: 34&quot;<br>
+  (L) Neck: 16.75&quot;. Chest: 42-44&quot;. Waist: 35-37&quot;. Sleeve Length: 34.75&quot;<br>
+  (XL) Neck: 17.75&quot;. Chest: 45-48&quot;. Waist: 38-40&quot;. Sleeve Length: 35.5&quot;<br>",
+
+  "mpant":
+  "<u>Men's Pant Sizing</u><br>
+  (M) Waist: 32-34&quot;. Hip: 38-40&quot;<br>
+  (L) Waist: 35-37&quot;. Hip: 41-43&quot;<br>
+  (XL) Waist: 38-40&quot;. Hip: 44-46&quot;<br>",
+
+  "wjacket":
+  "<u>Women's Jacket Sizing</u><br>
+  (S) Chest: 33-35&quot;. Waist: 26-28&quot;. Sleeve Length: 32&quot;<br>
+  (M) Chest: 36-37&quot;. Waist: 29-30&quot;. Sleeve Length: 32.5&quot;<br>
+  (L) Chest: 39-40&quot;. Waist: 32-33&quot;. Sleeve Length: 34.25&quot;<br>
+  (XL) Chest: 42-44&quot;. Waist: 35-37&quot;. Sleeve Length: 35&quot;<br>",
+
+  "wpant":
+  "<u>Women's Pant Sizing</u><br>
+  (S) Waist: 26-28&quot;. Hip: 35-36&quot;. Inseam: 30.5<br>
+  (M) Waist: 29-30&quot;. Hip: 37-39&quot;. Inseam: 30.5<br>
+  (L) Waist: 32-33&quot;. Hip: 40-43&quot;. Inseam: 31<br>
+  (XL) Waist: 35-37&quot;. Hip: 43-47&quot;. Inseam: 31<br>",
+
+  "infant":
+  "<u>Infant Sizing</u><br>
+  (6-12 mo) Height: 28-31&quot;. Weight: 20-25lbs<br>
+  (12-18 mo) Height: 31-33&quot;. Weight: 25-28lbs<br>
+  (18-24 mo) Height: 33-35&quot;. Weight: 29-32lbs<br>",
+
+  "toddler":
+  "<u>Toddler Sizing</u><br>
+  (2T) Height: 33-36&quot;. Weight: 29-32 lbs<br>
+  (3T) Height: 36-39&quot;. Weight: 32-37 lbs<br>
+  (4T) Height: 39-42&quot;. Weight: 37-41 lbs<br>",
+
+  "btop":
+  "<u>Boy's Top Sizing</u><br>
+  (S) Size 7-8. Height: 49.5 - 52.5&quot;. Chest: 25.5 - 26.5&quot;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;Waist: 23.75 - 24.5&quot;. Sleeve Length: 23 - 24&quot;<br>
+  (M) Size 10-12. Height: 55.5 - 58.5&quot;. Chest: 27.5 - 28.5&quot;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;Waist: 25.5 - 26.5&quot;. Sleeve Length: 25 - 26.75&quot;<br>
+  (L) Size 14-16. Height: 61.25 - 64&quot;. Chest: 30.5 - 32&quot;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;Waist: 27.5 - 28.5&quot;. Sleeve Length: 28.25 - 29.75&quot;<br>
+  (XL) Size 18-20. Height: 66.5 - 68.5&quot;. Chest: 33.5 - 35&quot;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;Waist: 29.5 - 30.5&quot;. Sleeve Length: 31 - 32&quot;<br>",
+
+  "bpant":
+  "<u>Boy's Pant Sizing</u><br>
+  (S) Height: 49.5 - 52.5&quot;. Waist: 23.75 - 24.5&quot;. Inseam: 22.5 - 24&quot;<br>
+  (M) Height: 55.5 - 58.5&quot;. Waist: 25.5 - 26.5&quot;. Inseam: 25.5 - 27.5&quot;<br>
+  (L) Height: 61.25 - 64&quot;. Waist: 27.5 - 28.5&quot;. Inseam: 28.25 - 29.75&quot;<br>
+  (XL) Height: 66.5 - 68.5&quot;. Waist: 29.5 - 30.5&quot;. Inseam: 30.5 - 31.25&quot;<br>",
+
+  "gtop":
+  "<u>Girl's Top Sizing</u><br>
+  (S) Size 7-8. Height: 49.5 - 52.5&quot;. Chest: 25.5 - 26.5&quot;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;Waist: 23.75 - 24.5&quot;. Sleeve Length: 23 - 24&quot;<br>
+  (M) Size 10-12. Height: 55.5 - 58&quot;. Chest: 27.5 - 29&quot;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;Waist: 25.5 - 26.5&quot;.  Sleeve Length: 25.5 - 26.5&quot;<br>
+  (L) Size 14-16. Height: 60.5 - 62.5&quot;. Chest: 30.5 - 32.5&quot;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;Waist: 27.5 - 28.5&quot;. Sleeve Length: 27.5 - 28.5&quot;<br>",
+
+  "gpant":
+  "<u>Girl's Pant Sizing</u><br>
+  (S) Height: 49.5 - 52.5&quot;. Waist: 23.75 - 24.5&quot;. Inseam: 22.5 - 24&quot;<br>
+  (M) Height: 55.5 - 58&quot;. Waist: 25.5 - 26.5&quot;. Inseam: 25.5 - 27.5&quot;<br>
+  (L) Height: 60.5 - 62.5&quot;. Waist: 27.5 - 28.5&quot;. Inseam: 28.25 - 29&quot;<br>
+  (XL) Height: 64&quot;. Waist: 29.5&quot;. Inseam: 29.5&quot;<br>"
+}
