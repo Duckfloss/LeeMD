@@ -9,7 +9,6 @@ $LOAD_PATH << "./lib"
 require 'csv'
 require 'htmlentities'
 require 'yaml'
-require 'Charlock_Holmes'
 
 # Require Classes
 require 'LeeMDConvert'
@@ -20,3 +19,5 @@ $settings = YAML::load_file "settings/settings.yml"
 os = $settings["os"]
 $csv_source = $settings[os]["path"]+$settings[os]["csv_source"]
 $csv_target = $settings[os]["path"]+$settings[os]["csv_target"]
+
+doit($csv_source, $csv_target)
