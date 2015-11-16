@@ -28,10 +28,12 @@ def product_sanitizer(string)
   items = {
     "&quot;&quot;" => "&quot;",
     "&trade;" => "",
-    "&reg;" => ""
+    "&reg;" => "",
+    "&rsquo;" => "'",
+    "&lsquo;" => "'"
   }
   coder = HTMLEntities.new(:html4)
-  string = coder.encode(string, :basic)
+  string = coder.encode(string, :named)
   items.each do |k,v|
     string.gsub! k, v
   end
