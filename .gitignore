@@ -8,6 +8,7 @@ ehthumbs.db
 .LSOverride
 
 settings.yml
+doit.rb
 *.gem
 *.rbc
 /.config
