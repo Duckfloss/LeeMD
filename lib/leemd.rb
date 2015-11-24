@@ -3,7 +3,7 @@
 #TODO: add vendor name based on VCS field
 
 # Add lib to load path
-$LOAD_PATH << "./lib"
+$LOAD_PATH << "./leemd"
 
 # Require Gems
 require 'csv'
@@ -14,7 +14,7 @@ require 'yaml'
 require 'LeeMDConvert'
 
 # Load presets
-$settings = YAML::load_file "settings/settings.yml"
+$settings = YAML::load_file "../settings/settings.yml"
 
 os = $settings["os"]
 $csv_source = $settings[os]["path"]+$settings[os]["csv_source"]

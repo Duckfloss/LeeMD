@@ -55,19 +55,24 @@ end
 # except those in no_cap and with "*" in front of them
 def title_case(string)
   no_cap = ["a","an","the","with","and","but","or","on","in","at","to"]
-  if string[0] == "*"
-    string.sub!("*","")
-  elsif no_cap.include?(string)
-    string.downcase
-  else
-    string.capitalize!
-  end
+  split = string.split.map! do |word|
+    if word[0] == "*"
+      word.sub!("*","")
+    elsif word.include?('-')
+      word.split('-').each{|i| i.capitalize!}.join('-')
+    elsif no_cap.include?(word.downcase)
+      word.downcase
+    else
+      word.capitalize
+    end
+   end
+   split.join(' ')
 end
 
 
 # sanitize and capitalize
 def product_name(string)
-  string = product_sanitizer(string.split.each{|i| title_case(i)}.join(' '))
+  string = product_sanitizer(title_case(string))
 end
 
 
