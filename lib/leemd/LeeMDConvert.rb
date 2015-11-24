@@ -28,10 +28,12 @@ def product_sanitizer(string)
   items = {
     "&quot;&quot;" => "&quot;",
     "&trade;" => "",
-    "&reg;" => ""
+    "&reg;" => "",
+    "&rsquo;" => "'",
+    "&lsquo;" => "'"
   }
   coder = HTMLEntities.new(:html4)
-  string = coder.encode(string, :basic)
+  string = coder.encode(string, :named)
   items.each do |k,v|
     string.gsub! k, v
   end
@@ -41,13 +43,10 @@ end
 # replace \r\n line endings with \n line endings
 # check encoding, if not UTF-8, transcode
 def file_sanitizer(file)
-  detector = CharlockHolmes::EncodingDetector.new
   file = File.open(file, mode="r+")
   content = File.read(file)
-  character_encoding = detector.detect(content)
-  if character_encoding[:encoding] != "UTF-8"
-    content = CharlockHolmes::Converter.convert content, character_encoding[:encoding], 'UTF-8'
-  end
+	content.force_encoding(Encoding::Windows_1252)
+	content = content.encode!(Encoding::UTF_8, :universal_newline => true)
   content.gsub!("\r\n","\n")
   file.write(content)
 end
@@ -201,8 +200,12 @@ def body_format(hash)
 end
 
 def doit(csv_source, csv_target)
-  # open CSV file
-  csv_data = CSV.read($csv_source, :headers => true,:skip_blanks => true,:header_converters => :symbol)
+  begin
+    # open CSV file
+    csv_data = CSV.read($csv_source, :headers => true, :skip_blanks => true, :header_converters => :symbol)
+  rescue Exception => e
+    csv_data = CSV.read($csv_source, :headers => true, :skip_blanks => true, :header_converters => :symbol, encoding: "Windows-1252:UTF-8")
+  end
 
   # open a new file
   File.open(csv_target, 'a') do |file|
@@ -220,8 +223,3 @@ def doit(csv_source, csv_target)
     end
   end
 end
-
-=begin
-
-doit($csv_source, $csv_target)
-=end
