@@ -43,13 +43,8 @@ end
 # replace \r\n line endings with \n line endings
 # check encoding, if not UTF-8, transcode
 def file_sanitizer(file)
-#  detector = CharlockHolmes::EncodingDetector.new
   file = File.open(file, mode="r+")
   content = File.read(file)
-#  character_encoding = detector.detect(content)
-#  if character_encoding[:encoding] != "UTF-8"
-#    content = CharlockHolmes::Converter.convert content, character_encoding[:encoding], 'UTF-8'
-#  end
 	content.force_encoding(Encoding::Windows_1252)
 	content = content.encode!(Encoding::UTF_8, :universal_newline => true)
   content.gsub!("\r\n","\n")
