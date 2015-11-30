@@ -54,9 +54,13 @@ end
 # Capitalize all words in title
 # except those in no_cap and with "*" in front of them
 def title_case(string)
+  no = 0
   no_cap = ["a","an","the","with","and","but","or","on","in","at","to"]
   split = string.split.map! do |word|
-    if word[0] == "*"
+    no += 1
+    if no < 2
+      word.downcase.capitalize
+    elsif word[0] == "*"
       word.sub!("*","")
     elsif word.include?('-')
       word.split('-').each{|i| i.capitalize!}.join('-')
