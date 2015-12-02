@@ -13,11 +13,9 @@ require 'yaml'
 # Require Classes
 require 'LeeMDConvert'
 
-# Load presets
-$settings = YAML::load_file "../settings/settings.yml"
-
-os = $settings["os"]
-$csv_source = $settings[os]["path"]+$settings[os]["csv_source"]
-$csv_target = $settings[os]["path"]+$settings[os]["csv_target"]
+$csv_source = ARGV[0]
+path = $csv_source.slice(0,$csv_source.index(/\/[A-Za-z0-9\-\_]+\.csv$/)+1)
+file = $csv_source.slice(/[A-Za-z0-9\-\_]+\.csv$/)
+$csv_target = "#{path}FILTERED#{file}"
 
 doit($csv_source, $csv_target)
