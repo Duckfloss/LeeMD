@@ -7,8 +7,8 @@ ehthumbs.db
 .AppleDouble
 .LSOverride
 
-settings.yml
-doit.rb
+/lib/sizing
+/lib/reference
 *.gem
 *.rbc
 /.config
