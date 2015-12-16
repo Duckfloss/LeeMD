@@ -211,9 +211,9 @@ end
 def doit(csv_source, csv_target)
   begin
     # open CSV file
-    csv_data = CSV.read($csv_source, :headers => true, :skip_blanks => true, :header_converters => :symbol)
+    csv_data = CSV.read($csv_source, :headers => true, :skip_blanks => true, :header_converters => :symbol, :encoding => 'UTF-8')
   rescue Exception => e
-    csv_data = CSV.read($csv_source, :headers => true, :skip_blanks => true, :header_converters => :symbol, encoding: "Windows-1252:UTF-8")
+    csv_data = CSV.read($csv_source, :headers => true, :skip_blanks => true, :header_converters => :symbol, :encoding => 'Windows-1252:UTF-8')
   end
 
   # open a new file
