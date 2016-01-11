@@ -10,10 +10,13 @@ require 'htmlentities'
 require 'optparse'
 require 'ostruct'
 
-leemdconvert = 'c:/Documents and Settings/pos/desktop/website/toolbox/leemd/lib/LeeMDConvert.rb'
+# Require Scripts
+scriptdir = File.dirname(__FILE__)
+require "#{scriptdir}/lib/leemdconvert.rb"
 
-# Require Classes
-require leemdconvert
+# TEMPS
+$file = "C:/Documents and Settings/pos/desktop/out.csv"
+ARGV = [ $file ]
 
 def valid_file?(file)
 	if file.nil?
@@ -69,26 +72,12 @@ end
 
 if __FILE__ == $0
 
-options = parse_args
+	options = parse_args
 
-path = options.source.slice(0,options.source.index(/\/[A-Za-z0-9\-\_]+\.csv$/)+1)
-file = options.source.slice(/[A-Za-z0-9\-\_]+\.csv$/)
+	path = options.source.slice(0,options.source.index(/\/[A-Za-z0-9\-\_]+\.csv$/)+1)
+	file = options.source.slice(/[A-Za-z0-9\-\_]+\.csv$/)
+	csv_target = "#{path}FILTERED#{file}"
 
-$csv_source = options.source
-$csv_target = "#{path}FILTERED#{file}"
-
-doit($csv_source, $csv_target)
+	doit(options.source, csv_target)
 
 end
-
-
-
-=begin
-$csv_source = ARGV[0]
-path = $csv_source.slice(0,$csv_source.index(/\/[A-Za-z0-9\-\_]+\.csv$/)+1)
-file = $csv_source.slice(/[A-Za-z0-9\-\_]+\.csv$/)
-$csv_target = "#{path}FILTERED#{file}"
-
-doit($csv_source, $csv_target)
-
-=end

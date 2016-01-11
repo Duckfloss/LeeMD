@@ -1,12 +1,3 @@
-#--BEGIN temporary placeholders
-$vendor = ""
-temp = "TEMP_TEXT"
-product_name = temp
-description = temp
-features = temp
-specs = temp
-#--END temporary placeholders
-
 
 # Converts the product description into a hash
 # with the "product_name",
@@ -211,9 +202,12 @@ end
 def doit(csv_source, csv_target)
   begin
     # open CSV file
-    csv_data = CSV.read($csv_source, :headers => true, :skip_blanks => true, :header_converters => :symbol, :encoding => 'UTF-8')
+    csv_data = CSV.read(csv_source, :headers => true, :skip_blanks => true, :header_converters => :symbol, :encoding => 'UTF-8')
+  rescue
+    csv_data = CSV.read(csv_source, :headers => true, :skip_blanks => true, :header_converters => :symbol, :encoding => 'Windows-1252:UTF-8')
   rescue Exception => e
-    csv_data = CSV.read($csv_source, :headers => true, :skip_blanks => true, :header_converters => :symbol, :encoding => 'Windows-1252:UTF-8')
+    puts e
+    exit
   end
 
   # open a new file
