@@ -14,10 +14,6 @@ require 'ostruct'
 scriptdir = File.dirname(__FILE__)
 require "#{scriptdir}/lib/leemdconvert.rb"
 
-# TEMPS
-$file = "C:/Documents and Settings/pos/desktop/out.csv"
-ARGV = [ $file ]
-
 def valid_file?(file)
 	if file.nil?
 		puts "Please provide a file to format"
