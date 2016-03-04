@@ -1,9 +1,5 @@
 #!/usr/bin/env ruby
 
-#TODO: sublists in list style
-#TODO: skip empty lines in lists
-#TODO: add vendor name based on VCS field
-
 # Require Gems
 require 'csv'
 require 'htmlentities'

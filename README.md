@@ -24,3 +24,7 @@ This code will take a file somefile.csv, extract the "desc" field, reformat it f
 
 LeeMD is a shortcode-style formatting tool. It requires certain format headers and style guides. See the documentation on LeeMD format for more details. (TODO: Write instructions on LeeMD format.)
 
+### TODO:
+sublists in list style
+skip empty lines in lists
+add vendor name based on VCS field
