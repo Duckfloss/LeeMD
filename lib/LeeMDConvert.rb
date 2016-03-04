@@ -165,11 +165,11 @@ def formatify(string)
     when "product_name"
       temp_data[k]=product_name(v)
     when "description"
-      temp_data[k] = "<p>#{product_sanitizer(v)}</p>\n"
+      temp_data[k] = "<p id=\"description\">#{product_sanitizer(v)}</p>\n"
     when "features"
-      temp_data[k] = "<p>\n<u>Features</u>\n#{format_section(v,format)}\n</p>\n"
+      temp_data[k] = "<p id=\"features\">\n<u>Features</u>\n#{format_section(v,format)}\n</p>\n"
     when "specs"
-      temp_data[k] = "<p>\n<u>Specifications</u>\n#{format_section(v,format)}\n</p>\n"
+      temp_data[k] = "<p id=\"specifications\">\n<u>Specifications</u>\n#{format_section(v,format)}\n</p>\n"
     end
   end
   output << body_format(temp_data)
@@ -184,7 +184,7 @@ def body_format(hash)
   specs = hash["specs"]
 
   body_format = "<ECI>\n<font face='verdana'>\n"
-  body_format << "<h2>#{hash['product_name']}</h2>\n"
+  body_format << "<h2 id=\"product_name\">#{hash['product_name']}</h2>\n"
   if hash.has_key? 'description'
     body_format << hash['description']
   end
