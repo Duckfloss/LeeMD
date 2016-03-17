@@ -14,16 +14,20 @@ def hashify(string)
 end
 
 # encode special characters for HTML
-# remove trademark, registered symbols and repeated quotes
-def html_sanitizer(string)
-  
-
-  coder = HTMLEntities.new(:html4)
-  string = coder.encode(string, :named)
-  items.each do |k,v|
-    string.gsub! k, v
+def html_sanitizer(string, set=:basic)
+  if set == :basic
+    $htmlmap = MAPPINGS[:base]
+  else
+    $htmlmap = MAPPINGS[:base].merge!(MAPPINGS[:title])
   end
-  return string
+
+  string = string.split("")
+  string.map! { |char|
+    ( $htmlmap.has_key?(char.unpack('U')[0]) ) ? $htmlmap[char.unpack('U')[0]] : char
+  }
+
+
+  return string.join
 end
 
 # replace \r\n line endings with \n line endings
@@ -62,7 +66,7 @@ end
 
 # sanitize and capitalize
 def product_name(string)
-  string = html_sanitizer(title_case(string))
+  string = html_sanitizer(title_case(string),:title)
 end
 
 
