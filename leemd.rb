@@ -9,6 +9,7 @@ require 'ostruct'
 # Require Scripts
 scriptdir = File.dirname(__FILE__)
 require "#{scriptdir}/lib/leemdconvert.rb"
+require "#{scriptdir}/lib/htmlmap.rb"
 
 def valid_file?(file)
 	if file.nil?

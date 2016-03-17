@@ -15,14 +15,9 @@ end
 
 # encode special characters for HTML
 # remove trademark, registered symbols and repeated quotes
-def product_sanitizer(string)
-  items = {
-    "&quot;&quot;" => "&quot;",
-    "&trade;" => "",
-    "&reg;" => "",
-    "&rsquo;" => "'",
-    "&lsquo;" => "'"
-  }
+def html_sanitizer(string)
+  
+
   coder = HTMLEntities.new(:html4)
   string = coder.encode(string, :named)
   items.each do |k,v|
@@ -67,7 +62,7 @@ end
 
 # sanitize and capitalize
 def product_name(string)
-  string = product_sanitizer(title_case(string))
+  string = html_sanitizer(title_case(string))
 end
 
 
@@ -132,7 +127,7 @@ end
 
 
 def format_section(string,format)
-  string=product_sanitizer(string)
+  string=html_sanitizer(string)
   case format
   when "table"
     string = tablify(string)
@@ -165,7 +160,7 @@ def formatify(string)
     when "product_name"
       temp_data[k]=product_name(v)
     when "description"
-      temp_data[k] = "<p id=\"description\">#{product_sanitizer(v)}</p>\n"
+      temp_data[k] = "<p id=\"description\">#{html_sanitizer(v)}</p>\n"
     when "features"
       temp_data[k] = "<p id=\"features\">\n<u>Features</u>\n#{format_section(v,format)}\n</p>\n"
     when "specs"
