@@ -63,7 +63,8 @@ def print_help
 	exit 0
 end
 
-if __FILE__ == $0
+def run
+#if __FILE__ == $0
 
 	options = parse_args
 
